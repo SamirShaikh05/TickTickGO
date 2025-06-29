@@ -21,5 +21,5 @@
 ✅ Built real-time UI updates with localStorage persistence.  
 ✅ Practiced building a responsive, clean, and minimal user interface.
 
-🌐 Live Website: [TickTickGo - GitHub Pages](https://your-username.github.io/your-repo-name)
+🌐 Live Website: [TickTickGo - GitHub Pages](https://samirshaikh05.github.io/TickTickGo/)
 
