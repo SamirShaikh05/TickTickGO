@@ -118,7 +118,7 @@ function App() {
                 const dynamicPadding = paddingMap[timestampCount] || 'pb-0';
                 return (
                   <div className={`relative w-full mb-3 bg-white bg-opacity-60 p-3 ${dynamicPadding} rounded-lg border border-indigo-200 shadow-sm`} key={index}>
-                    <div className='flex justify-between items-start mb-2'>
+                    <div className='flex justify-between items-center mb-2'>
                       <div className='todo flex gap-1 items-baseline relative w-[75%]'>
                         <input type="checkbox" onChange={() => handleCheckbox(index)} checked={item.done} id={`todo-${index}`} className='hover:cursor-pointer accent-indigo-600' />
                         {editIndex === index ? (
