@@ -1,12 +1,25 @@
-# React + Vite
+✅ Built using React and Tailwind CSS, this project is more than just a todo app — it’s a showcase of my growing frontend development skills and clean UI practices.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+🔹 Key Features:
 
-Currently, two official plugins are available:
+🖊️ Add Todos – Type and save tasks quickly.  
+✅ Mark as Done – Check off completed tasks easily.  
+🔁 Edit Existing Tasks – Make changes with one click.  
+🗑️ Delete – Remove tasks when no longer needed.  
+📅 Timestamps – Automatically shows Created, Edited, and Completed times.  
+👁️ Toggle View – Show/Hide finished todos.  
+💾 Local Storage – All tasks are saved in the browser for persistence across sessions.  
+📱 Responsive Design – Fully usable across mobile, tablet, and desktop screens.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+🛠️ Tech Stack: React | Tailwind CSS | Vite | JavaScript
 
-## Expanding the ESLint configuration
+💡 What I Gained from This Project
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+✅ Improved my understanding of React state management and hooks.  
+✅ Learned how to structure reusable components and handle dynamic data.  
+✅ Enhanced my skills in Tailwind CSS utility-first design.  
+✅ Built real-time UI updates with localStorage persistence.  
+✅ Practiced building a responsive, clean, and minimal user interface.
+
+🌐 Live Website: [TickTickGo - GitHub Pages](https://your-username.github.io/your-repo-name)
+
