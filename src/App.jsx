@@ -99,77 +99,83 @@ function App() {
         <div className='h-[1px] w-[90%] bg-indigo-300 mt-2.5 mb-2.5 mx-auto opacity-50'></div>
 
         <h2 className='text-2xl font-semibold text-indigo-700 mb-8'>Your Todos</h2>
-        <div className="todos max-h-[40vh] overflow-y-auto pr-2 custom-scrollbar">
-          {
-            todos
-              .filter((item) => showfinished || !item.done)
-              .map((item, index) => {
-                const timestampCount =
-                  (item.createdAt ? 1 : 0) +
-                  (item.updatedAt ? 1 : 0) +
-                  (item.completedAt ? 1 : 0);
+        {
+          todos.length === 0 ? (
+            <h1 className='text-center text-indigo-500 font-semibold'>No Todos to Show</h1>
+          ) : (
+            <div className="todos max-h-[40vh] overflow-y-auto pr-2 custom-scrollbar">
+              {
+                todos
+                  .filter((item) => showfinished || !item.done)
+                  .map((item, index) => {
+                    const timestampCount =
+                      (item.createdAt ? 1 : 0) +
+                      (item.updatedAt ? 1 : 0) +
+                      (item.completedAt ? 1 : 0);
 
-                const paddingMap = {
-                  1: 'pb-8',
-                  2: 'pb-12',
-                  3: 'pb-14'
-                };
+                    const paddingMap = {
+                      1: 'pb-8',
+                      2: 'pb-12',
+                      3: 'pb-14'
+                    };
 
-                const dynamicPadding = paddingMap[timestampCount] || 'pb-0';
-                return (
-                  <div className={`relative w-full mb-3 bg-white bg-opacity-60 p-3 ${dynamicPadding} rounded-lg border border-indigo-200 shadow-sm`} key={index}>
-                    <div className='flex justify-between items-center mb-2'>
-                      <div className='todo flex gap-1 items-baseline relative w-[75%]'>
-                        <input type="checkbox" onChange={() => handleCheckbox(index)} checked={item.done} id={`todo-${index}`} className='hover:cursor-pointer accent-indigo-600' />
-                        {editIndex === index ? (
-                          <input
-                            type="text"
-                            value={editText}
-                            onChange={(e) => setEditText(e.target.value)}
-                            className="border-2 border-indigo-400 rounded-lg px-3 py-2 w-[80%] focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent bg-indigo-50 shadow-sm"
-                          />
-                        ) : (
-                          <div className={`text-lg ${item.done ? "line-through text-gray-400" : "text-gray-700"} hover:cursor-default max-w-[85%] sm:max-w-[95%] wrap-break-word`}>{item.text}</div>
-                        )}
+                    const dynamicPadding = paddingMap[timestampCount] || 'pb-0';
+                    return (
+                      <div className={`relative w-full mb-3 bg-white bg-opacity-60 p-3 ${dynamicPadding} rounded-lg border border-indigo-200 shadow-sm`} key={index}>
+                        <div className='flex justify-between items-center mb-2'>
+                          <div className='todo flex gap-1 items-baseline relative w-[75%]'>
+                            <input type="checkbox" onChange={() => handleCheckbox(index)} checked={item.done} id={`todo-${index}`} className='hover:cursor-pointer accent-indigo-600' />
+                            {editIndex === index ? (
+                              <input
+                                type="text"
+                                value={editText}
+                                onChange={(e) => setEditText(e.target.value)}
+                                className="border-2 border-indigo-400 rounded-lg px-3 py-2 w-[80%] focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent bg-indigo-50 shadow-sm"
+                              />
+                            ) : (
+                              <div className={`text-lg ${item.done ? "line-through text-gray-400" : "text-gray-700"} hover:cursor-default max-w-[85%] sm:max-w-[95%] wrap-break-word`}>{item.text}</div>
+                            )}
 
+                          </div>
+                          <div className='flex h-full'>
+                            {editIndex === index ? (
+                              <button
+                                onClick={handleSaveEdit}
+                                className='bg-emerald-600 hover:bg-emerald-700 p-2 py-1 text-sm font-bold text-white rounded-md mx-1 transition-colors shadow-sm hover:cursor-pointer'
+                              >
+                                Save
+                              </button>
+                            ) : (
+                              <button
+                                onClick={() => handleEdit(index)}
+                                className='bg-indigo-600 hover:bg-indigo-700 p-2 py-1 text-sm font-bold text-white rounded-md mx-1 hover:cursor-pointer transition-colors shadow-sm'
+                              >
+                                <FaEdit />
+                              </button>
+                            )}
+
+                            <button onClick={() => handleDelete(index)} className='bg-red-500 hover:bg-red-600 p-2 py-1 text-sm font-bold text-white rounded-md mx-1 hover:cursor-pointer transition-colors shadow-sm'><AiFillDelete /></button>
+                          </div>
+                        </div>
+
+                        <div className='absolute bottom-2 left-3 text-xs text-gray-500'>
+                          {item.createdAt && (
+                            <div>Created: {formatDate(item.createdAt)}</div>
+                          )}
+                          {item.updatedAt && (
+                            <div>Updated: {formatDate(item.updatedAt)}</div>
+                          )}
+                          {item.completedAt && (
+                            <div className='text-green-600'>Completed: {formatDate(item.completedAt)}</div>
+                          )}
+                        </div>
                       </div>
-                      <div className='flex h-full'>
-                        {editIndex === index ? (
-                          <button
-                            onClick={handleSaveEdit}
-                            className='bg-emerald-600 hover:bg-emerald-700 p-2 py-1 text-sm font-bold text-white rounded-md mx-1 transition-colors shadow-sm hover:cursor-pointer'
-                          >
-                            Save
-                          </button>
-                        ) : (
-                          <button
-                            onClick={() => handleEdit(index)}
-                            className='bg-indigo-600 hover:bg-indigo-700 p-2 py-1 text-sm font-bold text-white rounded-md mx-1 hover:cursor-pointer transition-colors shadow-sm'
-                          >
-                            <FaEdit />
-                          </button>
-                        )}
-
-                        <button onClick={() => handleDelete(index)} className='bg-red-500 hover:bg-red-600 p-2 py-1 text-sm font-bold text-white rounded-md mx-1 hover:cursor-pointer transition-colors shadow-sm'><AiFillDelete /></button>
-                      </div>
-                    </div>
-
-                    <div className='absolute bottom-2 left-3 text-xs text-gray-500'>
-                      {item.createdAt && (
-                        <div>Created: {formatDate(item.createdAt)}</div>
-                      )}
-                      {item.updatedAt && (
-                        <div>Updated: {formatDate(item.updatedAt)}</div>
-                      )}
-                      {item.completedAt && (
-                        <div className='text-green-600'>Completed: {formatDate(item.completedAt)}</div>
-                      )}
-                    </div>
-                  </div>
-                )
-              })
-          }
-        </div>
+                    )
+                  })
+              }
+            </div>
+          )
+        }
       </div>
     </div>
   )
