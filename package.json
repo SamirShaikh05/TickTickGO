@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "https://SamirShaikh05.github.io/TickTickGO",
+  "homepage": "https://SamirShaikh05.github.io/TickTickGo",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
