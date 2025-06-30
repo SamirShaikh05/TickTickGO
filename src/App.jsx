@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { FaEdit } from "react-icons/fa";
 import { AiFillDelete } from "react-icons/ai";
+import { v4 as uuidv4 } from 'uuid';
 
 function App() {
   const [todo, setTodo] = useState("")
@@ -22,6 +23,7 @@ function App() {
       const newTodo = {
         text: todo,
         done: false,
+        id: uuidv4(),
         createdAt: new Date().toISOString()
       };
       setTodos([...todos, newTodo])
@@ -29,37 +31,43 @@ function App() {
     }
   }
 
-  const handleEdit = (index) => {
-    setEditIndex(index);
-    setEditText(todos[index].text);
+  const handleEdit = (id) => {
+    const todo = todos.find(todo => todo.id === id);
+    setEditIndex(id);
+    setEditText(todo.text);
   };
 
   const handleSaveEdit = () => {
-    const newTodos = [...todos];
-    newTodos[editIndex].text = editText;
-    newTodos[editIndex].updatedAt = new Date().toISOString();
+    const newTodos = todos.map(todo =>
+      todo.id === editIndex
+        ? { ...todo, text: editText, updatedAt: new Date().toISOString() }
+        : todo
+    );
     setTodos(newTodos);
     setEditIndex(null);
     setEditText("");
   };
 
 
-  const handleDelete = (index) => {
-    const newTodos = todos.filter((_, i) => i !== index);
+
+  const handleDelete = (id) => {
+    const newTodos = todos.filter(todo => todo.id !== id);
     setTodos(newTodos);
   };
 
 
-  const handleCheckbox = (index) => {
-    const newTodos = [...todos]
-    newTodos[index].done = !newTodos[index].done
-    if (newTodos[index].done) {
-      newTodos[index].completedAt = new Date().toISOString();
-    } else {
-      delete newTodos[index].completedAt;
-    }
-    setTodos(newTodos)
-  }
+  const handleCheckbox = (id) => {
+    const newTodos = todos.map(todo =>
+      todo.id === id
+        ? {
+          ...todo,
+          done: !todo.done,
+          completedAt: !todo.done ? new Date().toISOString() : undefined
+        }
+        : todo
+    );
+    setTodos(newTodos);
+  };
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     return date.toLocaleDateString('en-US', {
@@ -107,7 +115,7 @@ function App() {
               {
                 todos
                   .filter((item) => showfinished || !item.done)
-                  .map((item, index) => {
+                  .map((item) => {
                     const timestampCount =
                       (item.createdAt ? 1 : 0) +
                       (item.updatedAt ? 1 : 0) +
@@ -121,11 +129,11 @@ function App() {
 
                     const dynamicPadding = paddingMap[timestampCount] || 'pb-0';
                     return (
-                      <div className={`relative w-full mb-3 bg-white bg-opacity-60 p-3 ${dynamicPadding} rounded-lg border border-indigo-200 shadow-sm`} key={index}>
+                      <div className={`relative w-full mb-3 bg-white bg-opacity-60 p-3 ${dynamicPadding} rounded-lg border border-indigo-200 shadow-sm`} key={item.id}>
                         <div className='flex justify-between items-center mb-2'>
                           <div className='todo flex gap-1 items-baseline relative w-[75%]'>
-                            <input type="checkbox" onChange={() => handleCheckbox(index)} checked={item.done} id={`todo-${index}`} className='hover:cursor-pointer accent-indigo-600' />
-                            {editIndex === index ? (
+                            <input type="checkbox" onChange={() => handleCheckbox(item.id)} checked={item.done} className='hover:cursor-pointer accent-indigo-600' />
+                            {editIndex === item.id ? (
                               <input
                                 type="text"
                                 value={editText}
@@ -138,7 +146,7 @@ function App() {
 
                           </div>
                           <div className='flex h-full'>
-                            {editIndex === index ? (
+                            {editIndex === item.id ? (
                               <button
                                 onClick={handleSaveEdit}
                                 className='bg-emerald-600 hover:bg-emerald-700 p-2 py-1 text-sm font-bold text-white rounded-md mx-1 transition-colors shadow-sm hover:cursor-pointer'
@@ -147,14 +155,14 @@ function App() {
                               </button>
                             ) : (
                               <button
-                                onClick={() => handleEdit(index)}
+                                onClick={() => handleEdit(item.id)}
                                 className='bg-indigo-600 hover:bg-indigo-700 p-2 py-1 text-sm font-bold text-white rounded-md mx-1 hover:cursor-pointer transition-colors shadow-sm'
                               >
                                 <FaEdit />
                               </button>
                             )}
 
-                            <button onClick={() => handleDelete(index)} className='bg-red-500 hover:bg-red-600 p-2 py-1 text-sm font-bold text-white rounded-md mx-1 hover:cursor-pointer transition-colors shadow-sm'><AiFillDelete /></button>
+                            <button onClick={() => handleDelete(item.id)} className='bg-red-500 hover:bg-red-600 p-2 py-1 text-sm font-bold text-white rounded-md mx-1 hover:cursor-pointer transition-colors shadow-sm'><AiFillDelete /></button>
                           </div>
                         </div>
 
